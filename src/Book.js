@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 // import serializeForm from 'form-serialize'
 
 class Book extends Component {
@@ -15,6 +14,7 @@ class Book extends Component {
     }
     render() {
     const { book } = this.props
+    console.log(book)
     return (
         <div className="book">
             <div className="book-top">

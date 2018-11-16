@@ -5,51 +5,54 @@ import Book from './Book.js'
 
 class BookList extends Component {
   static propTypes = {
-    books: PropTypes.array.isRequired,
+    currentlyReadingBooks: PropTypes.array.isRequired,
+    wantToReadBooks: PropTypes.array.isRequired,
+    readBooks: PropTypes.array.isRequired,
   }
   state = {
+    books: [],
     currentlyReadingBooks: [],
     wantToReadBooks:[],
     readBooks:[]
   }
-  componentDidMount() {
-    this.updateBooks(this.props.books);
-  }
+//   componentWillMount() {
+//     this.updateBooks(this.props.books);
+//   }
 
-  updateBooks = (books) => {
-    this.setState(() => ({
-            currentlyReadingBooks : books.filter((book) => (
-                book.shelf==='currentlyReading'
-            ))
-        })
-    )     
-  }
+//   updateBooks = () => {
+//     this.setState(() => ({
+//             currentlyReadingBooks : this.props.books.filter((book) => (
+//                 book.shelf==='currentlyReading'
+//             ))
+//         })
+//     )     
+//   }
 
   render() {
-    const { books } = this.props
-    
-    // this.updateBooks(books);
-    
-    this.state.currentlyReadingBooks = books.filter((book) => (
-        book.shelf==='currentlyReading'
-        ))
+    const { currentlyReadingBooks, wantToReadBooks, readBooks } = this.props
+    // this.updateBooks(this.props.books);
 
-    this.state.wantToReadBooks = books.filter((book) => (
-        book.shelf==='wantToRead'
-        ))
+    // )
+    // this.state.currentlyReadingBooks = books.filter((book) => (
+    //     book.shelf==='currentlyReading'
+    //     ))
+
+    // this.state.wantToReadBooks = books.filter((book) => (
+    //     book.shelf==='wantToRead'
+    //     ))
     
-    this.state.readBooks = books.filter((book) => (
-        book.shelf==='read'
-        )) 
+    // this.state.readBooks = books.filter((book) => (
+    //     book.shelf==='read'
+    //     )) 
 
     return (
-        <div className="list-books-content">
+        <div className="list-books-content" onClick={this.updateBooks}>
             <div>
                 <div className="bookshelf">
                     <h2 className="bookshelf-title">Currently Reading</h2>
                     <div className="bookshelf-books">
                     <ol className='books-grid'>
-                        {this.state.currentlyReadingBooks.map((book) => (
+                        {currentlyReadingBooks.map((book) => (
                             <li key={book.id} >
                                 <Book book={book}/>
                             </li>
@@ -62,7 +65,7 @@ class BookList extends Component {
                     <h2 className="bookshelf-title">Want to Read</h2>
                     <div className="bookshelf-books">
                         <ol className='books-grid'>
-                            {this.state.wantToReadBooks.map((book) => (
+                            {wantToReadBooks.map((book) => (
                                 <li key={book.id} >
                                     <Book book={book}/>
                                 </li>
@@ -74,7 +77,7 @@ class BookList extends Component {
                     <h2 className="bookshelf-title">Read</h2>
                     <div className="bookshelf-books">
                         <ol className='books-grid'>
-                            {this.state.readBooks.map((book) => (
+                            {readBooks.map((book) => (
                                 <li key={book.id} >
                                     <Book book={book}/>
                                 </li>
