@@ -34,6 +34,63 @@ class BooksApp extends React.Component {
       })
   }
 
+  changeShelf = (book) => {
+      this.removeBook(book);
+      this.addBook(book);
+  }
+
+  removeBook(book){
+    let indCR = this.contains(this.state.currentlyReadingBooks, book);
+    let indWR = this.contains(this.state.wantToReadBooks, book);
+    let indR = this.contains(this.state.readBooks, book);
+    let arrayTemp;
+    if(indCR !==-1 ){
+      arrayTemp = [...this.state.currentlyReadingBooks];
+      arrayTemp.splice(indCR, 1);
+      this.setState(() =>({
+        currentlyReadingBooks: arrayTemp
+      }))
+    }else if(indWR !== -1){
+      arrayTemp = [...this.state.wantToReadBooks];
+      arrayTemp.splice(indWR, 1);
+      this.setState(() =>({
+        wantToReadBooks: arrayTemp
+      }))
+    }else{
+      arrayTemp = [...this.state.readBooks];
+      arrayTemp.splice(indR, 1);
+      this.setState(() =>({
+        readBooks: arrayTemp
+      }))
+    }
+    
+  }
+
+  contains(a, obj) {
+    for (var i = 0; i < a.length; i++) {
+        if (a[i].title === obj.title) {
+            return i;
+        }
+    }
+    return -1;
+  }
+
+  addBook = (book)=>{
+    if(book.shelf==='currentlyReading'){
+      this.setState((prevState)=>({
+        currentlyReadingBooks: [...prevState.currentlyReadingBooks, book]
+      }))
+    }else if(book.shelf==='wantToRead'){
+      this.setState((prevState)=>({
+        wantToReadBooks: [...prevState.wantToReadBooks, book]
+      }))
+    }else{
+      this.setState((prevState)=>({
+        readBooks: [...prevState.readBooks, book]
+      }))
+    }
+  }
+
   render() {
     return (
       <div className="app">
@@ -42,7 +99,8 @@ class BooksApp extends React.Component {
           <div className="list-books-title">
             <h1>MyReads</h1>
           </div>
-          <BookList currentlyReadingBooks={this.state.currentlyReadingBooks}
+          <BookList onChangeShelf={this.changeShelf}
+                    currentlyReadingBooks={this.state.currentlyReadingBooks}
                     wantToReadBooks={this.state.wantToReadBooks}
                     readBooks={this.state.readBooks}
                     />
