@@ -1,9 +1,14 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Book from './Book.js'
 
 // import serializeForm from 'form-serialize'
 
 class SearchBook extends Component {
+
+    static propTypes = {
+      onChangeShelf: PropTypes.func.isRequired,
+    }
     state = {
         query: ''
     }
@@ -15,7 +20,7 @@ class SearchBook extends Component {
     }
     render() {
     const { query } = this.state
-    const { books } = this.props
+    const { books, onChangeShelf } = this.props
 
     const showBooks = query === ''
       ? books
@@ -49,7 +54,7 @@ class SearchBook extends Component {
               <ol className="books-grid">
               {showBooks.map((book) => (
                   <li key={book.id+'_search'} >
-                      <Book book={book}/>
+                      <Book onChangeShelf={onChangeShelf} book={book}/>
                   </li>
               ))}
               </ol>
