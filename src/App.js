@@ -36,7 +36,8 @@ class BooksApp extends React.Component {
 
   changeShelf = (book) => {
     BooksAPI.update(book, book.shelf)
-      .then(() => {
+      .then((data) => {
+        console.log(data)
         this.removeBook(book);
         this.addBook(book);
       })
@@ -88,7 +89,7 @@ class BooksApp extends React.Component {
       this.setState((prevState)=>({
         wantToReadBooks: [...prevState.wantToReadBooks, book]
       }))
-    }else{
+    }else if(book.shelf==='read'){
       this.setState((prevState)=>({
         readBooks: [...prevState.readBooks, book]
       }))

@@ -16,7 +16,6 @@ class Book extends Component {
         this.handleChange = this.handleChange.bind(this)
     }
 
-
     handleChange(event) {
         this.props.book.shelf = event.target.value;
         this.props.onChangeShelf(this.props.book)
@@ -31,6 +30,7 @@ class Book extends Component {
                 <div className="book-shelf-changer">
                 <select value={book.shelf} onChange={this.handleChange}>
                     <option value="move" disabled>Move to...</option>
+                    <option value="none" >None</option>
                     <option value="currentlyReading">Currently Reading</option>
                     <option value="wantToRead">Want to Read</option>
                     <option value="read">Read</option>
