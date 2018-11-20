@@ -35,8 +35,12 @@ class BooksApp extends React.Component {
   }
 
   changeShelf = (book) => {
-      this.removeBook(book);
-      this.addBook(book);
+    BooksAPI.update(book, book.shelf)
+      .then(() => {
+        this.removeBook(book);
+        this.addBook(book);
+      })
+
   }
 
   removeBook(book){
@@ -56,7 +60,7 @@ class BooksApp extends React.Component {
       this.setState(() =>({
         wantToReadBooks: arrayTemp
       }))
-    }else{
+    }else if(indR !== -1){
       arrayTemp = [...this.state.readBooks];
       arrayTemp.splice(indR, 1);
       this.setState(() =>({

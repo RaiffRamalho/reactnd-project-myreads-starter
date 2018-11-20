@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Book from './Book.js'
+import * as BooksAPI from './BooksAPI'
 
 // import serializeForm from 'form-serialize'
 
@@ -10,20 +11,27 @@ class SearchBook extends Component {
       onChangeShelf: PropTypes.func.isRequired,
     }
     state = {
-        query: ''
+        query: '',
+        booksFromSearch:[]
     }
 
     updateQuery = (query) => {
       this.setState(() => ({
-        query: query
+        query: query,
       }))
+      BooksAPI.search(query)
+      .then((books) => {
+        this.setState(() => ({
+          booksFromSearch: books
+        }))
+      })
     }
     render() {
     const { query } = this.state
     const { books, onChangeShelf } = this.props
 
     const showBooks = query === ''
-      ? books
+      ? []
       : books.filter((book) => (
           book.title.toLowerCase().includes(query.toLowerCase()) ||
           book.authors[0].toLowerCase().includes(query.toLowerCase()) 
@@ -32,7 +40,6 @@ class SearchBook extends Component {
     return (
         <div className="search-books">
             <div className="search-books-bar">
-              {/* <a className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</a> */}
               <div className="search-books-input-wrapper">
                 {/*
                   NOTES: The search from BooksAPI is limited to a particular set of search terms.
@@ -53,6 +60,11 @@ class SearchBook extends Component {
             <div className="search-books-results">
               <ol className="books-grid">
               {showBooks.map((book) => (
+                  <li key={book.id+'_search'} >
+                      <Book onChangeShelf={onChangeShelf} book={book}/>
+                  </li>
+              ))}
+              {this.state.booksFromSearch.map((book) => (
                   <li key={book.id+'_search'} >
                       <Book onChangeShelf={onChangeShelf} book={book}/>
                   </li>
